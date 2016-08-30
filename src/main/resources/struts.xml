@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">	
+
+<struts>
+    <!-- devMode is helpful when you want some extra logs for debugging -->
+    <constant name="struts.devMode" value="false" />
+    <!-- Global message resource; 
+    	 Otherwise you will have seperate message resource for each Action 
+    -->
+    <constant name="struts.custom.i18n.resources" value="messages" /> 
+    <!-- 
+    	This is important if you are planning to have slashes in Action URLs
+    	e.g. In this demo, employee is deleted using URL /delete/10
+    	This this is set to false; then struts will try to find mapping for 
+    	URL "/10" instaed of "/delete/10"
+     -->
+    <constant name="struts.enable.SlashesInActionNames" value="true"/>
+     
+    <!-- Normal Action mappings are defined here -->
+	<package name="default" namespace="" extends="struts-default">
+	    <!-- Two things to Notice: 
+	    	 1) class is set to 'editEmployeeAction' which is bean defined by Spring context
+	    	 2) We have given the method to be called here as well;
+	   	-->
+		<action name="LoginAction" class="com.career.Action.LoginAction" method="LoginAction">
+            <result name="SUCCESS" type="redirectAction">loginHome</result>
+            <result name="SUCCESSFUL" type="redirectAction">loginHome1</result>
+            <result name="ERROR">/HomePage.jsp</result>  
+        </action>
+        <action name="loginHome" class="com.career.Action.LoginHome" >
+            <result name="SUCCESS" >/uloginsuccess.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="loginHome1" class="com.career.Action.LoginHome"  >
+            <result name="SUCCESS" >/adminsuccess.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="UserListInsertAction" class="com.career.Action.LoginAction" method="insertNewUser">
+            <result name="success">/mailSuccess.jsp</result>
+            <result name="alreadyreg" >/register.jsp</result>
+            <result name="error" >/mailError.jsp</result>
+        </action>
+         <action name="changepassword"  class="com.career.Action.LoginAction" method="retrivechangepwd">
+            <result name="success">/uloginsuccess.jsp</result>
+            <result name="passwordwrong">/manageaccount.jsp</result>
+            <result name="error">/changepwdError.jsp</result>
+        </action>
+        <action name="emailver" class="com.career.Action.LoginAction" method="updateuserbymail">
+            <result name="success"> /emailversuc.jsp</result>
+        </action>  
+        <action name="register">
+            <result>/register.jsp</result>
+        </action>
+        <action name="ManageAcc" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/manageaccount.jsp</result>
+        </action>
+         <action name="logoutAction" class="com.career.Action.LogoutAction">
+            <result name="SUCCESS">/HomePage.jsp</result>
+        </action>
+        <action name="fetchPersonal" class="com.career.Action.PersonalDetailsAction" method="fetchPersonalDetails">
+            <result name="success">/Per_details.jsp</result>
+            <result name="error">/perError.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="insert" class="com.career.Action.PersonalDetailsAction" method="insertPersonalDetails">
+            <result name="success">/Per_details.jsp</result>            
+            <result name="error">/Per_details.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="update1" class="com.career.Action.PersonalDetailsAction" method="insertPersonalDetails">
+            <result name="success">/Per_details.jsp</result>
+            <result name="error">/updatefail.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+       
+        <action name="dbhelp" class="com.career.Action.EducationalDetailsAction" method="saveEducationalDetails">
+            <result name="input">/fetch_educational_details.jsp</result>
+            <result name="success">/fetch_educational_details.jsp</result>
+            <result name="error">/error.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        
+        <action name="fetchedu" class="com.career.Action.EducationalDetailsAction" method="retrieveEducationalDetails">
+            <result name="error">/error.jsp</result>
+            <result name="success">/fetch_educational_details.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action> 
+        <action name="update_edu" class="com.career.Action.EducationalDetailsAction" method="saveEducationalDetails">
+            <result name="success">/fetch_educational_details.jsp</result>
+            <result name="error">/error.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>  
+        <action name="saveskills" class="com.career.Action.SkillsAction" method="insertSkillsDetails" >
+            <result name="success">/fetchskills.jsp</result>
+            <result name="input">/success.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="fetchskills" class="com.career.Action.SkillsAction" method="getSkillsDetails">
+            <result name="success">/fetchskills.jsp</result>
+            <result name="error">/index.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="updateskills" class="com.career.Action.SkillsAction" method= "updateSkillsDetails">
+            <result name="success">/fetchskills.jsp</result>
+            <result name="error">/success.jsp</result>
+            <result name="input">/fetchskills.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="PostJob" class="com.career.Action.LoginHome">
+            <result name="SUCCESS">/insertJob.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="insertJob"  class="com.career.Action.JobPostAction" method="insertJobPost">
+            <result name="success">/insertJob.jsp</result>
+            <result name="error">/insertJob.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>    
+        <action name="moredetails" class="com.career.Action.JobPostAction" method="fetchJob">
+            <result name="success">/displaydetails.jsp</result>  
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>        
+        <action name="jobPost" class="com.career.Action.JobPostAction" method="fetchJobs">
+            <result name="success">/showfetch.jsp</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>         
+        <action name="moredetails" class="com.career.Action.JobPostAction" method="fetchJob">
+            <result name="success">/displaydetail1.jsp</result>  
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="moredetails1" class="com.career.Action.JobPostAction" method="fetchJob">
+            <result name="success">/individualjob.jsp</result>  
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>        
+        <action name="DeleteJob" class="com.career.Action.JobPostAction" method="deleteJob">
+            <result name="success" type="redirectAction">/jobPost</result>
+            <result name="error">/result.jsp</result>  
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="update" class="com.career.Action.JobPostAction" method="UpdateJob">
+            <result name="success" type="redirectAction">/jobPost</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="searchfresher"  class="com.career.Action.SearchUserDetailsAction" method="fetchuserexperience" >
+            <result name="success">/searchfresher.jsp</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="searchjobrole" class="com.career.Action.SearchUserDetailsAction" method="fetchuserbyjobrole">
+            <result name="success">/searchjobrole.jsp</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>             
+        <action name="viewjobsbyloc" class="com.career.Action.SearchJobAction" method="searchByLocation">
+            <result name="success">/viewjobsbyloc.jsp</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>       
+        <action name="moredetailsloc" class="com.career.Action.JobPostAction" method="fetchJob">
+            <result name="success">/individualjob.jsp</result>  
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="viewjobsbyrole" class="com.career.Action.SearchJobAction" method="searchByJobRole">
+            <result name="success">/viewjobsbyrole.jsp</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="applyjob" class="com.career.Action.UserApplyJobAction">
+            <result name="success">/JobSearchHome.jsp</result>
+            <result name="error">/result.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="viewalljobs" class="com.career.Action.JobPostAction" method="fetchJobs">
+            <result name="success">/showalljobs.jsp</result>
+            <result name="error">/success.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+              
+       
+        <action name="JobSearch" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/JobSearchHome.jsp</result>
+        </action>
+        <action name="JobRole" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/viewjobsbyrole.jsp</result>
+        </action>
+        <action name="JobLoc" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/viewjobsbyloc.jsp</result>
+        </action>
+        
+        <action name="showallusers" class="com.career.Action.SearchUserDetailsAction" method="fetchalluserdetails">
+            <result name="success">/showallusers.jsp</result>
+            <result name="error">/error.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="oneuserdetail"  class="com.career.Action.SearchUserDetailsAction" method="fetchindividualuser" >
+            <result name="success" > /oneuserdetail.jsp</result>
+            <result name="ERROR">/HomePage.jsp</result>
+        </action>
+        <action name="SearchHome" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/searchhome.jsp</result>
+        </action>
+        <action name="SearchJobPos" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/searchjobrole.jsp</result>
+        </action>
+        <action name="SearchExperience" class="com.career.Action.LoginHome">
+            <result name="ERROR">/HomePage.jsp</result>
+            <result name="SUCCESS">/searchfresher.jsp</result>
+        </action>
+        <action name="downloadresume" class="com.career.Action.SearchUserDetailsAction" method="downloadResume">           
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="inputName">fileInputStream</param>
+                <param name="contentDisposition">attachment;filename=${filename}</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+	</package>
+	
+</struts>

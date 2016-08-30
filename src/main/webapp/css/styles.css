@@ -1,0 +1,88 @@
+/* 
+    Document   : styles
+    Created on : Jun 16, 2012, 6:55:42 PM
+    Author     : avinashkumar
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+
+body {
+	background: #ffffff;
+	color: #436436;
+	font-family: Trebuchet MS, Arial, Times New Roman;
+	font-size: 12px;
+}
+
+#header {
+	background: #838283;
+	height: 100px;
+	width: 940px;
+    background-color: white;
+    
+   
+}
+#navigation {
+	
+	width: 1000px;
+	height: 40px;
+    background: #FBB917;
+}
+ul
+{
+    color: #000000;
+    width: 940px;
+    height: 40px;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+li
+{
+    color: teal;
+    float:left;
+    width:120px;
+    height:40px;
+    display:inline;
+    font-style: normal;
+    font-weight: bold;
+    font-variant: normal;
+    background-attachment: none;
+    background-position: center center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#menu {
+	background:white;
+	float: left;
+	width: 250px;
+	height: 624px;
+}
+#menu1 {
+width: 190px;
+height: 624px;
+float: right;
+background:#ffffff;
+
+}
+#content_area {
+
+	width: 640px;
+	height: 624px;
+}
+
+#footer {
+	background: #808080;
+	height: 40px;
+	width: 1000px;
+    
+    font-family: Trebuchet MS, Arial, Times New Roman;
+    font-style: normal;
+    color: silver;
+}

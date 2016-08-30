@@ -1,0 +1,170 @@
+<?xml  version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:lang="http://www.springframework.org/schema/lang"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <!-- This bean has been referred fron struts.xml file; So type it correctly; -->
+    
+    <!-- Configure jdbc.properties -->
+    <bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+        p:location="classpath:jdbc.properties" />
+ 
+    <!-- Data Source configuration -->
+    <bean id="dataSource"
+        class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+        p:driverClassName="${driver}"
+        p:url="${url}" p:username="${username}"
+        p:password="${password}" />
+ 
+	<!-- Configure hibernate session factory -->    
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+        <property name="configurationClass">
+            <value>org.hibernate.cfg.AnnotationConfiguration</value>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- Run SQL queries in transactions -->
+    <tx:annotation-driven />
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <!-- Load Beans into Spring Container -->
+    <bean id="ApplyJobBo" class="com.career.BoImpl.ApplyJobBoImpl" >
+        <property name="applyJobDAO" ref="applyJobDAO" />       
+    </bean>
+    
+    <bean id="applyJobDAO" class="com.career.DAOImpl.ApplyJobDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="educationalDetailsBo" class="com.career.BoImpl.EducationalDetailsBoImpl" >
+        <property name="educationalDetailsDAO" ref="educationalDetailsDAO" />       
+    </bean>
+    
+    <bean id="educationalDetailsDAO" class="com.career.DAOImpl.EducationalDetailsDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="jobPostBo" class="com.career.BoImpl.JobPostBoImpl" >
+        <property name="jobPostDAO" ref="jobPostDAO" />       
+    </bean>
+    
+    <bean id="jobPostDAO" class="com.career.DAOImpl.JobPostDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="loginDetailBo" class="com.career.BoImpl.LoginDetailBoImpl" >
+        <property name="loginDetailDao" ref="loginDetailDAO" />       
+    </bean>
+    
+    <bean id="loginDetailDAO" class="com.career.DAOImpl.LoginDetailDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="personalDetailsBo" class="com.career.BoImpl.PersonalDetailsBoImpl" >
+        <property name="personalDetailsDao" ref="personalDetailsDao" />       
+    </bean>
+    
+    <bean id="personalDetailsDao" class="com.career.DAOImpl.PersonalDetailsDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="skillsBo" class="com.career.BoImpl.SkillsBoImpl" >
+        <property name="skillsDAO" ref="skillsDAO" />       
+    </bean>
+    
+    <bean id="skillsDAO" class="com.career.DAOImpl.SkillsDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+     
+    <!-- TransactionProxy -->
+    <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*"/>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="ApplyJobBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="ApplyJobBo" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="educationalDetailsBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="educationalDetailsBo" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="jobPostBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="jobPostBo" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="loginDetailBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="loginDetailBo" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="personalDetailsBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="personalDetailsBo" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="skillsBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="skillsBo" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    
+</beans>
